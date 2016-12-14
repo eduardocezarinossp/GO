@@ -1,0 +1,130 @@
+<html>
+<head>
+	<meta charset="utf-8">	
+	<title>Teste</title>
+	<style type="text/css">
+		      html, body {
+          height: 100%;
+          margin: 0;
+          padding: 0;
+      }
+      #map-canvas {
+          height: 100%;
+          width: 100%;
+      }
+	</style>
+</head>
+<body>
+	<div id="map-canvas"></div>
+	<!-- <a onclick="navigate(-20.918464, -46.969919)">Navegar</a> -->
+
+	<script src="https://maps.googleapis.com/maps/api/js?sensor=false"></script>
+	<script type="text/javascript">
+
+		function navigate(lat, lng) {
+    // If it's an iPhone..
+    if ((navigator.platform.indexOf("iPhone") !== -1) || (navigator.platform.indexOf("iPod") !== -1)) {
+      function iOSversion() {
+        if (/iP(hone|od|ad)/.test(navigator.platform)) {
+          // supports iOS 2.0 and later: <http://bit.ly/TJjs1V>
+          var v = (navigator.appVersion).match(/OS (\d+)_(\d+)_?(\d+)?/);
+          return [parseInt(v[1], 10), parseInt(v[2], 10), parseInt(v[3] || 0, 10)];
+        }
+      }
+      var ver = iOSversion() || [0];
+
+      if (ver[0] >= 6) {
+        protocol = 'maps://';
+      } else {
+        protocol = 'http://';
+
+      }
+      window.location = protocol + 'maps.apple.com/maps?daddr=' + lat + ',' + lng + '&amp;ll=';
+    }
+    else {
+      window.open('http://maps.google.com?daddr=' + lat + ',' + lng + '&amp;ll=');
+    }
+  }	
+
+  var options = {
+  enableHighAccuracy: true,
+  timeout: 5000,
+  maximumAge: 0
+};
+
+
+function success(pos) {
+  var crd = pos.coords;
+
+  // console.log('Sua posição atual é:');
+  // console.log('Latitude : ' + crd.latitude);
+  // console.log('Longitude: ' + crd.longitude);
+  // console.log('Mais ou menos ' + crd.accuracy + ' metros.');
+  initMap(crd.latitude, crd.longitude);
+};
+
+function error(err) {
+  console.warn('ERROR(' + err.code + '): ' + err.message);
+};
+
+
+	navigator.geolocation.getCurrentPosition(success, error, options);
+
+
+		function initMap(latitude, longitude) {
+		    var pointA = new google.maps.LatLng(latitude, longitude),
+		        pointB = new google.maps.LatLng(-20.909414, -46.983931),
+		        myOptions = {
+		            zoom: 7,
+		            center: pointA
+		        },
+		        map = new google.maps.Map(document.getElementById('map-canvas'), myOptions),
+		        // Instantiate a directions service.
+		        directionsService = new google.maps.DirectionsService,
+		        directionsDisplay = new google.maps.DirectionsRenderer({
+		            map: map
+		        }),
+		        markerA = new google.maps.Marker({
+		            position: pointA,
+		            title: "Seu local",
+		            label: "A",
+		            map: map
+		        }),
+		        markerB = new google.maps.Marker({
+		            position: pointB,
+		            title: "Ir até o local",
+		            label: "B",
+		            map: map
+		        });
+
+				markerB.addListener('click', function() {
+					navigate(-20.909414, -46.983931)
+				});
+
+		    // get route from A to B
+		    calculateAndDisplayRoute(directionsService, directionsDisplay, pointA, pointB);
+
+		}
+
+
+
+		function calculateAndDisplayRoute(directionsService, directionsDisplay, pointA, pointB) {
+		    directionsService.route({
+		        origin: pointA,
+		        destination: pointB,
+		        avoidTolls: true,
+		        avoidHighways: false,
+		        travelMode: google.maps.TravelMode.DRIVING
+		    }, function (response, status) {
+		        if (status == google.maps.DirectionsStatus.OK) {
+		            directionsDisplay.setDirections(response);
+		        } else {
+		            window.alert('Directions request failed due to ' + status);
+		        }
+		    });
+		}
+
+		
+	</script>
+</body>
+</html>

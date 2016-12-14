@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Lageli GO!</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta charset="utf-8">
+    <style>
+      /* Always set the map height explicitly to define the size of the div
+       * element that contains the map. */
+      #map {
+        height: 100%;
+      }
+      /* Optional: Makes the sample page fill the window. */
+      html, body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="map"></div>
+    <script>
+    function navigate(lat, lng) {
+    // If it's an iPhone..
+    if ((navigator.platform.indexOf("iPhone") !== -1) || (navigator.platform.indexOf("iPod") !== -1)) {
+      function iOSversion() {
+        if (/iP(hone|od|ad)/.test(navigator.platform)) {
+          // supports iOS 2.0 and later: <http://bit.ly/TJjs1V>
+          var v = (navigator.appVersion).match(/OS (\d+)_(\d+)_?(\d+)?/);
+          return [parseInt(v[1], 10), parseInt(v[2], 10), parseInt(v[3] || 0, 10)];
+        }
+      }
+      var ver = iOSversion() || [0];
+
+      if (ver[0] >= 6) {
+        protocol = 'maps://';
+      } else {
+        protocol = 'http://';
+
+      }
+      window.location = protocol + 'maps.apple.com/maps?daddr=' + lat + ',' + lng + '&amp;ll=';
+    }
+    else {
+      window.open('http://maps.google.com?daddr=' + lat + ',' + lng + '&amp;ll=');
+    }
+  }	
+
+      var map;
+      function initMap() {
+        map = new google.maps.Map(document.getElementById('map'), {
+          center: new google.maps.LatLng(-21.918205, -46.965589),
+          mapTypeId: 'roadmap',
+          zoom:        4,
+          type:        'ROADMAP',
+          origins: [
+           ['37.936294', '23.947394'],
+           ['37.975669', '23.733868']
+          ]
+        });
+
+        var iconBase = 'http://sistema.duzani.com.br/lageli/go/img/';
+        var icons = {
+          parking: {
+            icon: iconBase + 'marker_lageli.png'
+          },
+          library: {
+            icon: iconBase + 'marker_lageli.png'
+          },
+          info: {
+            icon: iconBase + 'marker_lageli.png'
+          }
+        };
+
+        function addMarker(feature) {
+          var marker = new google.maps.Marker({
+            position: feature.position,
+            icon: icons[feature.type].icon,
+            map: map
+          });
+          marker.addListener('click', function() {
+					navigate(feature.lat, feature.lng)
+				});
+        }
+
+        var features = [
+          // {
+          //   position: new google.maps.LatLng(-20.918195, -46.965546),
+          //   type: 'info',
+          //   lat: -20.918195,
+          //   lng: -46.965546
+          // },
+          // {
+          //   position: new google.maps.LatLng(-20.812915, -49.381311),
+          //   type: 'info',
+          //   lat: -20.812915,
+          //   lng:  -49.381311
+          // },
+          // {
+          //   position: new google.maps.LatLng(-20.348208, -40.307454),
+          //   type: 'info',
+          //   lat: -20.348208, 	
+          //   lng:  -40.307454
+          // }
+          /*paraiso*/
+          {
+            position: new google.maps.LatLng(-22.845538, -47.069146),
+            type: 'info',
+            lat: -22.845538,
+            lng: -47.069146
+          },
+          /*pouso alegre*/
+          {
+            position: new google.maps.LatLng(-22.222933, -45.932163),
+            type: 'info',
+            lat: -22.222933,
+            lng: -45.932163
+          },
+          /*Aracatuba*/
+          {
+            position: new google.maps.LatLng(-21.214474, -50.446755),
+            type: 'info',
+            lat: -21.214474,
+            lng: -50.446755
+          },
+          /*Uberaba*/
+          {
+            position: new google.maps.LatLng(-19.763609, -47.948933),
+            type: 'info',
+            lat: -19.763609,
+            lng: -47.948933
+          },
+          /*Jundiai*/
+          {
+            position: new google.maps.LatLng(-23.183501, -46.898881),
+            type: 'info',
+            lat: -23.183501,
+            lng: -46.898881
+          },
+          /*Matao*/
+          {
+            position: new google.maps.LatLng(-21.619281, -48.350404),
+            type: 'info',
+            lat: -21.619281,
+            lng: -48.350404
+          },
+          /*Piracicaba*/
+          {
+            position: new google.maps.LatLng(-22.729353, -47.639241),
+            type: 'info',
+            lat: -22.729353,
+            lng: -47.639241
+          },
+          /*Brasilia*/
+          {
+            position: new google.maps.LatLng(-15.803702, -48.082959),
+            type: 'info',
+            lat: -15.803702,
+            lng: -48.082959
+          },
+          /*Maringa*/
+          {
+            position: new google.maps.LatLng(-23.448888, -51.956321),
+            type: 'info',
+            lat: -23.448888,
+            lng: -51.956321
+          },
+          /*Paulinia*/
+          {
+            position: new google.maps.LatLng(-22.775985, -47.169088),
+            type: 'info',
+            lat: -22.775985,
+            lng: -47.169088
+          },
+          /*Catanduva*/
+          {
+            position: new google.maps.LatLng(-21.132366, -48.964537),
+            type: 'info',
+            lat: -21.132366,
+            lng: -48.964537
+          },
+          /*Uberlandia*/
+          {
+            position: new google.maps.LatLng(-18.905587, -48.289247),
+            type: 'info',
+            lat: -18.905587,
+            lng: -48.289247
+          },
+          /*Sao Joao*/
+          {
+            position: new google.maps.LatLng(-21.965224, -46.797301),
+            type: 'info',
+            lat: -21.965224,
+            lng: -46.797301
+          },
+          /*Patrocinio*/
+          {
+            position: new google.maps.LatLng(-21.205508, -47.799921),
+            type: 'info',
+            lat: -21.205508,
+            lng: -47.799921
+          },
+          /*Sao Carlos*/
+          {
+            position: new google.maps.LatLng(-22.014318, -47.884840),
+            type: 'info',
+            lat: -22.014318,
+            lng: -47.884840
+          },
+          /*Vila Velha*/
+          {
+            position: new google.maps.LatLng(-20.348218, -40.307467),
+            type: 'info',
+            lat: -20.348218,
+            lng: -40.307467
+          },
+          /*Franca*/
+          {
+            position: new google.maps.LatLng(-20.524723, -47.394468),
+            type: 'info',
+            lat: -20.524723,
+            lng: -47.394468
+          },
+          /*Campo Grande*/
+          {
+            position: new google.maps.LatLng(-20.414423, -54.626951),
+            type: 'info',
+            lat: -20.414423,
+            lng: -54.626951
+          },
+          /*Sao Paulo*/
+          {
+            position: new google.maps.LatLng(-23.607195, -46.615709),
+            type: 'info',
+            lat: -23.607195,
+            lng: -46.615709
+          },
+          /*Sao Jose Rio Pardo*/
+          {
+            position: new google.maps.LatLng(-20.812909, -49.381308),
+            type: 'info',
+            lat: -20.812909,
+            lng: -49.381308
+          },
+          /*Araras*/
+          {
+            position: new google.maps.LatLng(-22.358366, -47.393842),
+            type: 'info',
+            lat: -22.358366,
+            lng: -47.393842
+          },
+          /*Sao Jose do Rio Preto*/
+          {
+            position: new google.maps.LatLng(-20.810331, -49.395118),
+            type: 'info',
+            lat: -20.810331,
+            lng: -49.395118
+          },
+          /*Sao Paulo*/
+          {
+            position: new google.maps.LatLng(-23.562321, -46.601294),
+            type: 'info',
+            lat: -23.562321,
+            lng: -46.601294
+          },
+          /*Paraiso*/
+          {
+            position: new google.maps.LatLng(-20.918218, -46.965554),
+            type: 'info',
+            lat: -20.918218,
+            lng: -46.965554
+          },
+          /*Bauru*/
+          {
+            position: new google.maps.LatLng(-22.348944, -49.057301),
+            type: 'info',
+            lat: -22.348944,
+            lng: -49.057301
+          }
+        ];
+
+        for (var i = 0, feature; feature = features[i]; i++) {
+          addMarker(feature);
+        }
+      }
+
+    
+
+    </script>
+    <script async defer
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD51pfs5I2v6f9Bh5JkpyGhcPtChXR7z_0&callback=initMap">
+    </script>
+  </body>
+</html>
