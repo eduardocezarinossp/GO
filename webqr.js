@@ -9,7 +9,7 @@ var gUM=false;
 var webkit=false;
 var moz=false;
 var v=null;
-
+var orientacao = 'user';
 var imghtml='<div id="qrfile"><canvas id="out-canvas" width="320" height="240"></canvas>'+
     '<div id="imghelp">drag and drop a QRCode here'+
 	'<br>or select a file'+
@@ -164,7 +164,7 @@ function setwebcam()
 			  devices.forEach(function(device) {
 				if (device.kind === 'videoinput') {
 				  if(device.label.toLowerCase().search("back") >-1)
-					options={'deviceId': {'exact':device.deviceId}, 'facingMode':'environment'} ;
+					options={'deviceId': {'exact':device.deviceId}, 'facingMode': orientacao} ;
 				}
 				console.log(device.kind + ": " + device.label +" id = " + device.deviceId);
 			  });
